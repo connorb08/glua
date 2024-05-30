@@ -112,12 +112,12 @@ if CLIENT then
 		buy_credits:SetPos( 25, 100 )
 		buy_credits:SetSize( 250, 30 )
 		buy_credits.DoClick = function()
-			RunConsoleCommand( "say", "Purchase tokens" )
+			notification.AddLegacy( "Purchased Token", NOTIFY_GENERIC, 2 )
+			Msg("Purchased Token")
 			net.Start( "purchase_token" )
 			net.SendToServer()
 			update_credits_and_stats()
-			credit_label:SetText( string.format("Credits: %d", credits) )
-			stat_label:SetText( string.format("Stat Boost: %d", stat_boost) )
+			update_panel(credit_label, stat_label)
 		end
 
 		local increase_health = vgui.Create( "DButton", frame )
@@ -125,12 +125,12 @@ if CLIENT then
 		increase_health:SetPos( 25, 150 )
 		increase_health:SetSize( 250, 30 )
 		increase_health.DoClick = function()
-			RunConsoleCommand( "say", "Purchase tokens" )
+			notification.AddLegacy( "Increase Stats", NOTIFY_GENERIC, 2 )
+			Msg("Increase Stats")
 			net.Start( "increase_stats" )
 			net.SendToServer()
 			update_credits_and_stats()
-			credit_label:SetText( string.format("Credits: %d", credits) )
-			stat_label:SetText( string.format("Stat Boost: %d", stat_boost) )
+			update_panel(credit_label, stat_label)
 		end
 
 		local decrease_health = vgui.Create( "DButton", frame )
@@ -138,12 +138,12 @@ if CLIENT then
 		decrease_health:SetPos( 25, 200 )
 		decrease_health:SetSize( 250, 30 )
 		decrease_health.DoClick = function()
-			RunConsoleCommand( "say", "Purchase tokens" )
+			notification.AddLegacy( "Decrease Stats", NOTIFY_GENERIC, 2 )
+			Msg("Decrease Stats")
 			net.Start( "decrease_stats" )
 			net.SendToServer()
 			update_credits_and_stats()
-			credit_label:SetText( string.format("Credits: %d", credits) )
-			stat_label:SetText( string.format("Stat Boost: %d", stat_boost) )
+			update_panel(credit_label, stat_label)
 		end
 
 		local printCredits = vgui.Create( "DButton", frame )
@@ -162,10 +162,7 @@ if CLIENT then
 			print(stat_boost)
 		end
 
-		timer.Create( "CreditDelay", 1, 1, function() 
-			credit_label:SetText( string.format("Credits: %d", credits) )
-			stat_label:SetText( string.format("Stat Boost: %d", stat_boost) )
-		end )
+		update_panel(credit_label, stat_label)
 
 	end)
 
@@ -174,6 +171,13 @@ if CLIENT then
 		net.SendToServer()
 		net.Start("sv_update_stats")
 		net.SendToServer()
+	end
+
+	function update_panel(credit_label, stat_label)
+		timer.Create( "CreditDelay", 1, 1, function() 
+			credit_label:SetText( string.format("Credits: %d", credits) )
+			stat_label:SetText( string.format("Stat Boost: %d", stat_boost) )
+		end )
 	end
 
 	net.Receive( "update_credits", function( len, ply )
