@@ -60,8 +60,9 @@ function SWEP:PrimaryAttack()
 	self.BaseClass.ShootEffects(self)
  
 	if (!SERVER) then return end
- 
-    self.Owner:SetVelocity(Vector(0,0,10))
+
+	print(self.Owner)
+	self.Owner:SetVelocity(Vector(1,1,1))
 
 end
  
