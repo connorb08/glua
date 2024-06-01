@@ -53,7 +53,8 @@ end
 function SWEP:PrimaryAttack()
 
     -- Get the eye trace
-	local tr = self.Owner:GetEyeTrace()
+	local ply = self.Owner
+	local tr = ply:GetEyeTrace()
  
     -- Play sound
 	self:EmitSound(use_sound)
@@ -61,8 +62,14 @@ function SWEP:PrimaryAttack()
  
 	if (!SERVER) then return end
 
-	print(self.Owner)
-	self.Owner:SetVelocity(Vector(1,1,1))
+	
+	local velocity = ply:GetVelocity()
+	local position = ply:GetPos()
+	local jumpPower = ply:GetJumpPower() or 200
+
+	velocity.z = jumpPower
+
+	ply:SetVelocity(velocity)
 
 end
  
