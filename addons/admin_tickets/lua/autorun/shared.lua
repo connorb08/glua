@@ -13,6 +13,11 @@ if SERVER then
                 steamid = ply:SteamID64()
             })
             ply:ChatPrint("Ticket created!")
+            for k, v in pairs(player.GetAll()) do
+                if v:IsAdmin() then
+                    v:SendLua(string.format("notification.AddLegacy('New ticket from %s - %s', NOTIFY_GENERIC, 5)", ply:Name(), ticket))
+                end
+            end
             return ""
         end
     end )
