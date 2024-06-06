@@ -34,7 +34,7 @@ if SERVER then
             if k == ticket_number then
                 table.remove(admin_tickets, k)
                 ply:ChatPrint("Ticket taken!")
-                file.Append( "admin_tickets.csv", string.format("%s,%s,%s", v.ticket, ply:Name(), ply:SteamID64()) )
+                file.Append( "admin_tickets.csv", string.format("%s,%s,%s\n", v.ticket, ply:Name(), ply:SteamID64()) )
                 return
             end
         end
