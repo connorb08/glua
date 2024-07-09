@@ -75,6 +75,13 @@ if CLIENT then
             net.SendToServer()
             frame:Close()
         end
+
+        function list:OnRowRightClick( lineID, line )
+            local menu = DermaMenu() 
+            menu:AddOption( "TP to player", function() print("Teleporting to", line.player:Name()) end )
+            menu:AddOption( "Cancel", function() print( "Cancelling ticket" ) end )
+            menu:Open()
+        end
         
     end)
 
