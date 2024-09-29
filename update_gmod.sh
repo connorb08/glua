@@ -22,7 +22,7 @@ update_server() {
 	fi
 
 	# Call SteamCMD with the app ID we provided and tell it to install
-	/usr/games/steamcmd +login anonymous +force_install_dir "$HOME/$DIR" +app_update $APP_ID validate +quit
+	/home/connor/Steam/steamcmd.sh +login anonymous +force_install_dir "$HOME/$DIR" +app_update $APP_ID validate +quit
 }
 
 # Now the script actually runs update_server ( which we just declared above ) with the id of the application ( 4020 is Garry's Mod ) and the name of the directory we want the server to be hosted from:
