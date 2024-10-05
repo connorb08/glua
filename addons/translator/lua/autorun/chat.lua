@@ -22,10 +22,12 @@ local ignoreCommands = {
 
 alien_players = alien_players or {}
 
+-- Check if player is an alien
 local function isAlien(ply)
     return table.HasValue(alien_players, ply)
 end
 
+-- Send translated message to all players with a datapad
 local function sendTranslatedMessage(ply, message)
     for _, v in ipairs(player.GetAll()) do
         if v:HasWeapon( "synergy_datapad" ) then
@@ -35,6 +37,7 @@ local function sendTranslatedMessage(ply, message)
     end
 end
 
+-- Add alien player
 hook.Add("PlayerSay", "SynergyAddAlientPlayer", function(ply, text)
     if ply:IsAdmin() then
         local words = {}
@@ -57,6 +60,7 @@ hook.Add("PlayerSay", "SynergyAddAlientPlayer", function(ply, text)
     end
 end)
 
+-- Translate alien player messages
 hook.Add("PlayerSay", "SynergyTranslatePlayerMessage", function(ply, text)
 
     if not isAlien(ply) then return end
