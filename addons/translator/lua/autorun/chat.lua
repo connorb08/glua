@@ -17,7 +17,9 @@ local ignoreCommands = {
     "/me",
     "/it",
     "/roll",
-    "@"
+    "@",
+    "/pm",
+    "/p"
 }
 
 alien_players = alien_players or {}
