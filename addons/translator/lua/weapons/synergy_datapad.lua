@@ -1,10 +1,3 @@
-if SERVER then
-    -- AddCSLuaFile("cl_init.lua")
-
-    alien_players = alien_players or {}
-
-end
-
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
 SWEP.Author = "inkydinkystinky"
@@ -19,8 +12,22 @@ SWEP.AdminOnly = true
 SWEP.Category = "[SR] Utilities"
 SWEP.Slot = 0
 SWEP.SlotPos = 0
-
+SWEP.Primary.ClipSize = -1
+SWEP.Primary.DefaultClip = -1
+SWEP.Primary.Automatic = false
+SWEP.Primary.Ammo = "none"
 SWEP.UseHands = true;
-SWEP.ViewModel = Model("models/drover/baton.mdl");
-SWEP.WorldModel = Model("models/drover/w_baton.mdl");
+SWEP.WorldModel = ""
+SWEP.ViewModel = ""
 
+function SWEP:PrimaryAttack()
+    return
+end
+
+function SWEP:SecondaryAttack()
+    return
+end
+
+function SWEP:Reload()
+    return
+end

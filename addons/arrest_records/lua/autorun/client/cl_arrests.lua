@@ -52,7 +52,13 @@ local function openArrestRecordsPanel(arrest_records)
 
                 -- Check if SteamID matches the filter (case-insensitive)
                 if filter == "" or string.find(steamID:lower(), filter:lower()) then
-                    listView:AddLine(date, name, arrestNumber, steamID, crime)
+                    local line = listView:AddLine(date, name, arrestNumber, steamID, crime)
+
+                    -- Add a click event to the line
+                    line.OnMousePressed = function()
+                        SetClipboardText(steamID)  -- Copy to clipboard
+                        chat.AddText(Color(0, 255, 0), "Copied Steam ID: " .. steamID)
+                    end
                 end
             else
                 print("Record has insufficient columns: ", table.concat(record, ", "))

@@ -1,4 +1,4 @@
-local arrest_records = arrest_records or {}
+local arrest_records = {}
 
 local sheet_id = "1vwNk5mgzFhTBA1wDsBV4lOXZ21__Wn0rfBj3epNM56A"
 local gid = "1803919369"
@@ -42,13 +42,16 @@ local function parseCSV(body)
 end
 
 -- Function to handle the CSV data
-local function handleCSV(body, length, headers, code)
+local function handleCSV(body, length, headers, code, callback)
     if code == 200 then
         -- Parse the CSV data and load it into arrest_records
         arrest_records = parseCSV(body)
         print("Filtered CSV data loaded into arrest_records table")
-        -- Optionally save CSV data to a file for reference
-        -- file.Write("google_sheet.csv", body)
+
+        -- Call the callback to send the arrest records
+        if callback then
+            callback(arrest_records)
+        end
     else
         print("Failed to fetch the CSV data. HTTP code: " .. code)
     end
@@ -60,18 +63,22 @@ local function handleError(error)
 end
 
 -- Function to fetch the CSV data from the Google Sheet
-local function fetchCSVData()
-    http.Fetch(url1, handleCSV, handleError)
+local function fetchCSVData(callback)
+    http.Fetch(url1, function(body, length, headers, code)
+        handleCSV(body, length, headers, code, callback)
+    end, handleError)
 end
 
 -- Hook to listen for chat commands
 hook.Add("PlayerSay", "HandleArrestRecordsCommand", function(ply, text)
     if string.lower(text) == "/arrests" then
-        -- Send arrest records data to the client
-        fetchCSVData()
-        net.Start("OpenArrestRecordsPanel")
-        net.WriteTable(arrest_records)  -- Send the filtered table
-        net.Send(ply)
+        -- Fetch the CSV data and wait for it to be returned before sending the net message
+        fetchCSVData(function(records)
+            -- Send the records to the client
+            net.Start("OpenArrestRecordsPanel")
+            net.WriteTable(records)  -- Send the filtered table
+            net.Send(ply)
+        end)
         return "" -- Prevent the message from being sent in chat
     end
 end)
